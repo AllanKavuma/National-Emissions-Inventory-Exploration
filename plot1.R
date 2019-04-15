@@ -1,3 +1,6 @@
+#Import libraries
+library(dplyr)
+
 #Read files
 nei_data <- readRDS("summarySCC_PM25.rds")
 scc_data <- readRDS("Source_Classification_Code.rds")
@@ -14,3 +17,10 @@ dev.off()
 
 ##Yes, total emissions from PM2.5 decreased in the 
 ##United States from 1999 to 2008
+
+##Create table having total emissions per year
+##use dplyr to summarise data by year and total emissions
+yemissions <- nei_data %>% group_by(year) %>% summarise(totalemissions = sum(Emissions))
+png(filename = "plot1.1.R")
+with(yemissions, plot(year, totalemissions, type = "l", col = "red"))
+dev.off()
